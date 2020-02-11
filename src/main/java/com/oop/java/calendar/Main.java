@@ -7,12 +7,14 @@ package com.oop.java.calendar;
 
 import javax.swing.SwingUtilities;
 
+import com.oop.java.calendar.ui.GuiRunnable;;
+
 /**
  *
  * @author samu
  */
 public class Main {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new CalendarFrame());
+        SwingUtilities.invokeLater(new GuiRunnable());
     }
 }
