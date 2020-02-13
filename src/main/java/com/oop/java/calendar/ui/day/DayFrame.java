@@ -3,6 +3,8 @@ package com.oop.java.calendar.ui.day;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -24,11 +26,19 @@ public class DayFrame extends JFrame {
      */
     private static final long serialVersionUID = 1L;
 
+    private int day;
+    private int month;
+    private int year;
+
     public DayFrame(int day, int month, int year) {
         super(day + "." + month + "." + year);
         assert day > 0;
         assert month > 0;
         assert year > 0;
+
+        this.day = day;
+        this.month = month;
+        this.year = year;
 
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -50,6 +60,15 @@ public class DayFrame extends JFrame {
         // TODO: get these values from db
         int gridY = 0;
         for (; gridY < 2; gridY++) {
+            JButton setTimeButton = new JButton("Set time");
+            setTimeButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    // TODO: If SetTImeFrame is already open, don't repen, focus
+                    new SetTimeFrame(day, month, year);
+                }
+            });
+
             constraint.gridy = gridY;
             constraint.gridx = 0;
             add(new JCheckBox("Done"), constraint);
@@ -58,7 +77,7 @@ public class DayFrame extends JFrame {
             constraint.gridx = 2;
             add(new JLabel("06:30"), constraint);
             constraint.gridx = 3;
-            add(new JButton("Set time"), constraint);
+            add(setTimeButton, constraint);
         }
 
         constraint.gridy = gridY;
