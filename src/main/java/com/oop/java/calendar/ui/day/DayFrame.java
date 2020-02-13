@@ -81,9 +81,20 @@ public class DayFrame extends JFrame {
         }
 
         constraint.gridy = gridY;
-        constraint.gridx = 3;
         constraint.gridwidth = 4;
-        add(new JButton("Save All"), constraint);
+        constraint.gridx = 0;
+        add(new JButton("Save"), constraint);
+
+        constraint.gridx = 3;
+        JButton addNewButton = new JButton("AddNew");
+        addNewButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                // TODO: If AddNewFrame is already open, don't repen, focus
+                new AddNewFrame(day, month, year);
+            }
+        });
+        add(addNewButton, constraint);
 
         setVisible(true);
         // Pack needs to be called after layout components are set
