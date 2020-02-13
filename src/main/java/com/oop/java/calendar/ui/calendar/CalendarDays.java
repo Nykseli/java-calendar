@@ -79,13 +79,12 @@ class CalendarDays extends JPanel {
             }
 
             // Else add DayPanel with the days number
-            String dayString = Integer.toString(loopDay);
             boolean today = false;
             if (todayMonth == targetMonth && todayYear == targetYear && todayDay == loopDay) {
                 today = true;
             }
 
-            add(new DayPanel(dayString, today));
+            add(new DayPanel(loopDay, loopMonth, loopYear, today));
         }
 
         // Finally add empty panels as padding
