@@ -3,42 +3,33 @@ package com.oop.java.calendar.ui.day;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 /**
  * AddNewFrame draws the New Task adder Window.
  */
-class AddNewFrame extends JFrame {
+class AddNewFrame extends AbstractFrame {
 
     /**
      * JFrame UID
      */
     private static final long serialVersionUID = 1L;
 
+    /**
+     *
+     * @param day
+     * @param month
+     * @param year
+     */
     AddNewFrame(int day, int month, int year) {
-        super("Add new");
-        assert day > 0;
-        assert month > 0;
-        assert year > 0;
-
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent event) {
-                dispose();
-            }
-        });
-
-        setLayout();
+        super("Add new", day, month, year);
     }
 
-    private void setLayout() {
+    @Override
+    protected void setLayout() {
         setLayout(new GridBagLayout());
 
         GridBagConstraints constraint = new GridBagConstraints();
@@ -70,6 +61,11 @@ class AddNewFrame extends JFrame {
         setVisible(true);
         // Pack needs to be called after layout components are set
         pack();
+    }
+
+    @Override
+    protected void onWindowClose() {
+        dispose();
     }
 
 }

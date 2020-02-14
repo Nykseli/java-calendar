@@ -5,12 +5,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -19,7 +16,7 @@ import javax.swing.JTextField;
  *
  * This should be only public class in com.oop.java.calendar.ui.day.
  */
-public class DayFrame extends JFrame {
+public class DayFrame extends AbstractFrame {
 
     /**
      * JFrame UID
@@ -31,27 +28,11 @@ public class DayFrame extends JFrame {
     private int year;
 
     public DayFrame(int day, int month, int year) {
-        super(day + "." + month + "." + year);
-        assert day > 0;
-        assert month > 0;
-        assert year > 0;
-
-        this.day = day;
-        this.month = month;
-        this.year = year;
-
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent event) {
-                dispose();
-            }
-        });
-
-        setLayout();
+        super(day + "." + month + "." + year, day, month, year);
     }
 
-    private void setLayout() {
+    @Override
+    protected void setLayout() {
         setLayout(new GridBagLayout());
 
         GridBagConstraints constraint = new GridBagConstraints();
@@ -99,6 +80,11 @@ public class DayFrame extends JFrame {
         setVisible(true);
         // Pack needs to be called after layout components are set
         pack();
+    }
+
+    @Override
+    protected void onWindowClose() {
+        dispose();
     }
 
 }
