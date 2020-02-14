@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import com.oop.java.calendar.data.models.Task;
+import com.oop.java.calendar.data.providers.TaskProvider;
 
 /**
  * AddNewFrame draws the New Task adder Window.
@@ -35,11 +36,12 @@ class AddNewFrame extends AbstractFrame {
      */
     AddNewFrame(int day, int month, int year) {
         super("Add new", day, month, year);
+
     }
 
     private void addSaveButton(GridBagConstraints constraint) {
         if (saveButton == null) {
-            saveButton = new JButton("Save");
+            saveButton = new JButton("Add");
             saveButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -52,6 +54,7 @@ class AddNewFrame extends AbstractFrame {
                     task.setAlertHour(Integer.parseInt(hourField.getText()));
                     task.setAlertMinute(Integer.parseInt(minuteField.getText()));
                     task.create();
+                    TaskProvider.getInstance().loadMonthData(month, year);
                 }
             });
         }
