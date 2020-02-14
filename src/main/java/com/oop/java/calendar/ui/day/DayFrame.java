@@ -6,6 +6,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -37,8 +38,8 @@ public class DayFrame extends AbstractFrame implements TaskView {
     public DayFrame(int day, int month, int year) {
         super(day + "." + month + "." + year, day, month, year);
 
-        provider = new TaskProvider(this);
-        provider.loadDayData(day, month, year);
+        provider = TaskProvider.getInstance();
+        provider.addView(this);
     }
 
     private void addNewButton(GridBagConstraints constraint) {
@@ -70,6 +71,11 @@ public class DayFrame extends AbstractFrame implements TaskView {
 
         GridBagConstraints constraint = new GridBagConstraints();
         constraint.insets = new Insets(10, 10, 10, 10);
+
+        // Try to get tasks from provider if the task is not already initialized
+        if (tasks == null) {
+            tasks = TaskProvider.getInstance().getDayTasks(day);
+        }
 
         int gridY = 0;
         int taskSize = tasks != null ? tasks.size() : 0;
@@ -118,13 +124,13 @@ public class DayFrame extends AbstractFrame implements TaskView {
 
     @Override
     protected void onWindowClose() {
-        // TODO: remove object from TaskProvider
+        provider.deleteView(this);
         dispose();
     }
 
     @Override
-    public void loadTasks(ArrayList<Task> tasks) {
-        this.tasks = tasks;
+    public void loadTasks(HashMap<Integer, ArrayList<Task>> tasks) {
+        this.tasks = tasks.get(day);
         getContentPane().removeAll();
         setLayout();
     }

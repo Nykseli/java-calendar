@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -46,12 +47,12 @@ class DayPanel extends JSplitPane implements TaskView {
         this.year = year;
         this.month = month;
 
-        setLayout();
-
+        taskProvider = TaskProvider.getInstance();
         if (day > 0) {
-            taskProvider = new TaskProvider(this);
-            taskProvider.loadDayData(day, month, year);
+            taskProvider.addView(this);
         }
+
+        setLayout();
     }
 
     private void setLayout() {
@@ -82,7 +83,7 @@ class DayPanel extends JSplitPane implements TaskView {
     private JPanel createBottomPanel() {
         JPanel bottom = new JPanel();
 
-        bottomButton = new JButton("Add new tasks");
+        bottomButton = new JButton(buttonText(taskProvider.getDayTasks(day)));
         bottomButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -95,18 +96,9 @@ class DayPanel extends JSplitPane implements TaskView {
         return bottom;
     }
 
-    /**
-     * Create empty DayPanel
-     */
-    public static DayPanel empty() {
-        return new DayPanel(-1, -1, -1, false);
-    }
-
-    @Override
-    public void loadTasks(ArrayList<Task> tasks) {
-        // Don't do anything if there are no tasks assigned to the day
-        if (tasks.size() == 0)
-            return;
+    private String buttonText(ArrayList<Task> tasks) {
+        if (tasks == null || tasks.size() == 0)
+            return "Add new tasks";
 
         int completed = 0;
         for (Task t : tasks) {
@@ -115,7 +107,23 @@ class DayPanel extends JSplitPane implements TaskView {
             }
         }
 
-        bottomButton.setText("Tasks: " + completed + "/" + tasks.size());
+        return "Tasks: " + completed + "/" + tasks.size();
+    }
+
+    /**
+     * Create empty DayPanel
+     */
+    public static DayPanel empty() {
+        return new DayPanel(-1, -1, -1, false);
+    }
+
+    @Override
+    public void loadTasks(HashMap<Integer, ArrayList<Task>> tasks) {
+        // Don't do anything if there are no tasks assigned to the day
+        if (tasks.size() == 0)
+            return;
+
+        bottomButton.setText(buttonText(tasks.get(day)));
         bottomButton.repaint();
 
     }

@@ -119,9 +119,9 @@ public class Task extends Model {
         this.isDone.setValue(isDone);
     }
 
-    public static ArrayList<Task> get(int day, int month, int year) {
+    public static ArrayList<Task> get(int month, int year) {
         ArrayList<Task> tasks = new ArrayList<>();
-        String query = "SELECT * FROM " + tableName + " WHERE day=" + day + " and month=" + month + " and year=" + year;
+        String query = "SELECT * FROM " + tableName + " WHERE month=" + month + " and year=" + year;
 
         try {
             ResultSet rs = DatabaseHelper.getInstance().query(query);
