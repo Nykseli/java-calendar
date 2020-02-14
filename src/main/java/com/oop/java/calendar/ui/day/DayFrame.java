@@ -5,30 +5,63 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import com.oop.java.calendar.data.models.Task;
+import com.oop.java.calendar.data.providers.TaskProvider;
+import com.oop.java.calendar.data.providers.TaskView;
+
 /**
  * DayFrame draws the JPanels in com.oop.java.calendar.ui.day.
  *
  * This should be only public class in com.oop.java.calendar.ui.day.
  */
-public class DayFrame extends AbstractFrame {
+public class DayFrame extends AbstractFrame implements TaskView {
 
     /**
      * JFrame UID
      */
     private static final long serialVersionUID = 1L;
 
-    private int day;
-    private int month;
-    private int year;
+    private ArrayList<Task> tasks;
+    private TaskProvider provider;
+
+    private JButton newButton;
+    private JButton saveButton;
 
     public DayFrame(int day, int month, int year) {
         super(day + "." + month + "." + year, day, month, year);
+
+        provider = new TaskProvider(this);
+        provider.loadDayData(day, month, year);
+    }
+
+    private void addNewButton(GridBagConstraints constraint) {
+        if (newButton == null) {
+            newButton = new JButton("Add New");
+            newButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    // TODO: If AddNewFrame is already open, don't repen, focus
+                    new AddNewFrame(day, month, year);
+                }
+            });
+        }
+
+        add(newButton, constraint);
+    }
+
+    private void addSaveButton(GridBagConstraints constraint) {
+        if (saveButton == null) {
+            saveButton = new JButton("Save");
+        }
+
+        add(saveButton, constraint);
     }
 
     @Override
@@ -38,9 +71,9 @@ public class DayFrame extends AbstractFrame {
         GridBagConstraints constraint = new GridBagConstraints();
         constraint.insets = new Insets(10, 10, 10, 10);
 
-        // TODO: get these values from db
         int gridY = 0;
-        for (; gridY < 2; gridY++) {
+        int taskSize = tasks != null ? tasks.size() : 0;
+        for (; gridY < taskSize; gridY++) {
             JButton setTimeButton = new JButton("Set time");
             setTimeButton.addActionListener(new ActionListener() {
                 @Override
@@ -54,28 +87,29 @@ public class DayFrame extends AbstractFrame {
             constraint.gridx = 0;
             add(new JCheckBox("Done"), constraint);
             constraint.gridx = 1;
-            add(new JTextField("Done", 25), constraint);
+            String task = tasks.get(gridY).getTask();
+            add(new JTextField(task, 25), constraint);
             constraint.gridx = 2;
-            add(new JLabel("06:30"), constraint);
+            String time = tasks.get(gridY).getAlertHour() + ":" + tasks.get(gridY).getAlertHour();
+            add(new JLabel(time), constraint);
             constraint.gridx = 3;
             add(setTimeButton, constraint);
+        }
+
+        // If no tasks are added, add info label
+        if (gridY == 0) {
+            constraint.gridy = 0;
+            add(new JLabel("No tasks available. Add a new one!"), constraint);
+            gridY++;
         }
 
         constraint.gridy = gridY;
         constraint.gridwidth = 4;
         constraint.gridx = 0;
-        add(new JButton("Save"), constraint);
+        addSaveButton(constraint);
 
         constraint.gridx = 3;
-        JButton addNewButton = new JButton("AddNew");
-        addNewButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                // TODO: If AddNewFrame is already open, don't repen, focus
-                new AddNewFrame(day, month, year);
-            }
-        });
-        add(addNewButton, constraint);
+        addNewButton(constraint);
 
         setVisible(true);
         // Pack needs to be called after layout components are set
@@ -84,7 +118,15 @@ public class DayFrame extends AbstractFrame {
 
     @Override
     protected void onWindowClose() {
+        // TODO: remove object from TaskProvider
         dispose();
+    }
+
+    @Override
+    public void loadTasks(ArrayList<Task> tasks) {
+        this.tasks = tasks;
+        getContentPane().removeAll();
+        setLayout();
     }
 
 }

@@ -7,6 +7,7 @@ package com.oop.java.calendar;
 
 import javax.swing.SwingUtilities;
 
+import com.oop.java.calendar.data.models.Models;
 import com.oop.java.calendar.ui.GuiRunnable;;
 
 /**
@@ -15,6 +16,9 @@ import com.oop.java.calendar.ui.GuiRunnable;;
  */
 public class Main {
     public static void main(String[] args) {
+        // Initilize databases before starting the Gui
+        Models.initializeModels();
+
         SwingUtilities.invokeLater(new GuiRunnable());
     }
 }
