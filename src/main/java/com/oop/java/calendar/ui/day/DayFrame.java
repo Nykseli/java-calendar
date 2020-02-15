@@ -30,6 +30,7 @@ public class DayFrame extends AbstractFrame implements TaskView {
     private static final long serialVersionUID = 1L;
 
     private ArrayList<Task> tasks;
+    private ArrayList<RowValues> rows;
     private TaskProvider provider;
 
     private JButton newButton;
@@ -60,6 +61,22 @@ public class DayFrame extends AbstractFrame implements TaskView {
     private void addSaveButton(GridBagConstraints constraint) {
         if (saveButton == null) {
             saveButton = new JButton("Save");
+            saveButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    // Cannot save anything if there is no tasks
+                    if (tasks == null)
+                        return;
+
+                    for (int i = 0; i < tasks.size(); i++) {
+                        Task task = tasks.get(i);
+                        task.setTask(rows.get(i).taskValue());
+                        task.setIsDone(rows.get(i).doneValue());
+                    }
+
+                    TaskProvider.getInstance().updateDayTasks(day, tasks);
+                }
+            });
         }
 
         add(saveButton, constraint);
@@ -68,6 +85,8 @@ public class DayFrame extends AbstractFrame implements TaskView {
     @Override
     protected void setLayout() {
         setLayout(new GridBagLayout());
+        // Reset row values
+        rows = new ArrayList<>();
 
         GridBagConstraints constraint = new GridBagConstraints();
         constraint.insets = new Insets(10, 10, 10, 10);
@@ -80,6 +99,9 @@ public class DayFrame extends AbstractFrame implements TaskView {
         int gridY = 0;
         int taskSize = tasks != null ? tasks.size() : 0;
         for (; gridY < taskSize; gridY++) {
+            // Add new RowValues for each task
+            RowValues values = new RowValues();
+
             JButton setTimeButton = new JButton("Set time");
             setTimeButton.addActionListener(new ActionListener() {
                 @Override
@@ -91,16 +113,23 @@ public class DayFrame extends AbstractFrame implements TaskView {
 
             constraint.gridy = gridY;
             constraint.gridx = 0;
-            // Update the tasks ArrayList
-            add(new JCheckBox("Done"), constraint);
+            values.setDoneBox(tasks.get(gridY).getIsDone());
+            add(values.getDoneBox(), constraint);
+
             constraint.gridx = 1;
             String task = tasks.get(gridY).getTask();
-            add(new JTextField(task, 25), constraint);
+            values.setTaskField(task);
+            add(values.getTaskField(), constraint);
+
             constraint.gridx = 2;
             String time = tasks.get(gridY).getAlertHour() + ":" + tasks.get(gridY).getAlertHour();
             add(new JLabel(time), constraint);
+
             constraint.gridx = 3;
             add(setTimeButton, constraint);
+
+            // Finally add the row values to the list
+            rows.add(values);
         }
 
         // If no tasks are added, add info label
@@ -136,4 +165,39 @@ public class DayFrame extends AbstractFrame implements TaskView {
         setLayout();
     }
 
+}
+
+/**
+ * Helper class for saving dayframe task rows
+ */
+class RowValues {
+    private JCheckBox doneBox;
+    private JTextField taskField;
+
+    public void setDoneBox(Boolean defaultValue) {
+        boolean value = defaultValue != null ? defaultValue : false;
+        doneBox = new JCheckBox("Done");
+        doneBox.setSelected(value);
+    }
+
+    public JCheckBox getDoneBox() {
+        return doneBox;
+    }
+
+    public boolean doneValue() {
+        return doneBox.isSelected();
+    }
+
+    public void setTaskField(String defaultValue) {
+        String value = defaultValue != null ? defaultValue : "";
+        taskField = new JTextField(value, 25);
+    }
+
+    public JTextField getTaskField() {
+        return taskField;
+    }
+
+    public String taskValue() {
+        return taskField.getText();
+    }
 }

@@ -70,6 +70,12 @@ public class TaskProvider {
         notifyListeners();
     }
 
+    public void updateDayTasks(Integer day, ArrayList<Task> newTasks) {
+        tasks.put(day, newTasks);
+        // Notify listeners that tasks have been updated
+        notifyListeners();
+    }
+
     public ArrayList<Task> getDayTasks(Integer day) {
         return tasks.get(day);
     }
