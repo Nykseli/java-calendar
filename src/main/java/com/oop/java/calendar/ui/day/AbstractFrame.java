@@ -5,6 +5,8 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
+import com.oop.java.calendar.data.models.Task;
+
 abstract class AbstractFrame extends JFrame {
 
     /**
@@ -16,6 +18,9 @@ abstract class AbstractFrame extends JFrame {
     protected int month;
     protected int year;
 
+    protected Task task;
+    protected int rowIndex;
+
     AbstractFrame(String title, int day, int month, int year) {
         super(title);
         assert day > 0;
@@ -26,6 +31,20 @@ abstract class AbstractFrame extends JFrame {
         this.month = month;
         this.year = year;
 
+        construct();
+    }
+
+    AbstractFrame(String title, int rowIndex, Task task) {
+        super(title);
+        assert task != null;
+
+        this.task = task;
+        this.rowIndex = rowIndex;
+
+        construct();
+    }
+
+    private void construct() {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             @Override

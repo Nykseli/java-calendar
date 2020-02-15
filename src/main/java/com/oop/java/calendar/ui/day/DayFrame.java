@@ -103,26 +103,28 @@ public class DayFrame extends AbstractFrame implements TaskView {
             RowValues values = new RowValues();
 
             JButton setTimeButton = new JButton("Set time");
+            final Task rowTask = tasks.get(gridY);
+            final int rowIndex = gridY;
             setTimeButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     // TODO: If SetTImeFrame is already open, don't repen, focus
-                    new SetTimeFrame(day, month, year);
+                    new SetTimeFrame(rowIndex, rowTask);
                 }
             });
 
             constraint.gridy = gridY;
             constraint.gridx = 0;
-            values.setDoneBox(tasks.get(gridY).getIsDone());
+            values.setDoneBox(tasks.get(rowIndex).getIsDone());
             add(values.getDoneBox(), constraint);
 
             constraint.gridx = 1;
-            String task = tasks.get(gridY).getTask();
+            String task = tasks.get(rowIndex).getTask();
             values.setTaskField(task);
             add(values.getTaskField(), constraint);
 
             constraint.gridx = 2;
-            String time = tasks.get(gridY).getAlertHour() + ":" + tasks.get(gridY).getAlertHour();
+            String time = tasks.get(rowIndex).getAlertHour() + ":" + tasks.get(rowIndex).getAlertMinute();
             add(new JLabel(time), constraint);
 
             constraint.gridx = 3;
@@ -163,6 +165,7 @@ public class DayFrame extends AbstractFrame implements TaskView {
         this.tasks = tasks.get(day);
         getContentPane().removeAll();
         setLayout();
+        repaint();
     }
 
 }

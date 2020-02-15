@@ -70,6 +70,20 @@ public class TaskProvider {
         notifyListeners();
     }
 
+    public void updateTask(int dayIndex, Task task) {
+        assert task.getDay() != null;
+
+        // Update the task in provider
+        ArrayList<Task> list = tasks.get(task.getDay());
+        list.set(dayIndex, task);
+
+        // Update database entry from the task
+        task.update();
+
+        // Notify listeners that tasks have been updated
+        notifyListeners();
+    }
+
     public void updateDayTasks(Integer day, ArrayList<Task> newTasks) {
         // Update tasks to db
         // TODO: should this be a sperate thread?
@@ -86,6 +100,10 @@ public class TaskProvider {
 
     public ArrayList<Task> getDayTasks(Integer day) {
         return tasks.get(day);
+    }
+
+    public Task getDayTask(Integer day, int dayIndex) {
+        return tasks.get(day).get(dayIndex);
     }
 
     public void loadMonthData(int month, int year) {
