@@ -53,8 +53,7 @@ class AddNewFrame extends AbstractFrame {
                     task.setTask(taskField.getText());
                     task.setAlertHour(Integer.parseInt(hourField.getText()));
                     task.setAlertMinute(Integer.parseInt(minuteField.getText()));
-                    task.create();
-                    TaskProvider.getInstance().loadMonthData(month, year);
+                    TaskProvider.getInstance().addNewTask(task);
                 }
             });
         }

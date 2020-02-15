@@ -91,6 +91,7 @@ public class DayFrame extends AbstractFrame implements TaskView {
 
             constraint.gridy = gridY;
             constraint.gridx = 0;
+            // Update the tasks ArrayList
             add(new JCheckBox("Done"), constraint);
             constraint.gridx = 1;
             String task = tasks.get(gridY).getTask();

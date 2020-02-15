@@ -12,6 +12,8 @@ public class Task extends Model {
     private static final String tableName = "task";
     public static final String foreignId = "taskId";
 
+    // TODO: make Task sortable by alertHour and alertMinute
+
     // Database variables
     private Value<Integer> id;
     private Value<Integer> day;
