@@ -52,7 +52,7 @@ abstract class Model {
     }
 
     protected void addBoolToSchema(String rowName) {
-        String cmd = rowName + " TINYINT";
+        String cmd = rowName + " BOOLEAN";
         dbSchemaValues.add(cmd);
     }
 
@@ -93,7 +93,7 @@ abstract class Model {
         StringBuilder values = new StringBuilder(" ( ");
         for (int i = 0; i < dbValues.length; i++) {
             into.append(dbValues[i].getRowName());
-            values.append(dbValues[i].getValue());
+            values.append("?");
             if (i < dbValues.length - 1) {
                 into.append(", ");
                 values.append(", ");
@@ -111,7 +111,7 @@ abstract class Model {
 
         // Execute the command
         try {
-            dbHelper.execute(sb.toString());
+            dbHelper.safeExecute(sb.toString(), dbValues);
             // TODO: is there a more efficent way to assing the Id
             assignIdFromDb();
         } catch (SQLException e) {
@@ -129,8 +129,8 @@ abstract class Model {
         StringBuilder set = new StringBuilder();
         for (int i = 0; i < dbValues.length; i++) {
             set.append(dbValues[i].getRowName());
-            set.append("=");
-            set.append(dbValues[i].getValue());
+            set.append(" = ");
+            set.append("?");
             if (i < dbValues.length - 1) {
                 set.append(", ");
             }
@@ -145,7 +145,7 @@ abstract class Model {
         sb.append(id.getValue());
 
         try {
-            dbHelper.execute(sb.toString());
+            dbHelper.safeExecute(sb.toString(), dbValues);
         } catch (SQLException e) {
             System.err.println(e.toString());
         }
