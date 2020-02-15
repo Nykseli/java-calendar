@@ -34,6 +34,18 @@ abstract class Model {
         dbSchemaValues.add("id INTEGER PRIMARY KEY AUTOINCREMENT");
     }
 
+    private Value<?>[] getModifiedDbValues() {
+        Value<?>[] all = getDbValues();
+        ArrayList<Value<?>> modified = new ArrayList<>();
+
+        for (Value<?> value : all) {
+            if (value.isModified())
+                modified.add(value);
+        }
+
+        return modified.toArray(new Value<?>[modified.size()]);
+    }
+
     /**
      * Assign the highest id from db to the model.
      *
@@ -123,7 +135,10 @@ abstract class Model {
         assert id != null;
         assert id.getValue() != null;
 
-        Value<?>[] dbValues = getDbValues();
+        Value<?>[] dbValues = getModifiedDbValues();
+        // If none of the values are modified, there is nothing to update
+        if (dbValues.length == 0)
+            return;
 
         // Build SET values
         StringBuilder set = new StringBuilder();
