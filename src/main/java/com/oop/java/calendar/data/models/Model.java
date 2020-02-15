@@ -12,16 +12,38 @@ abstract class Model {
     private String tableName;
 
     /**
+     * Every model needs a id field
+     */
+    protected Value<Integer> id;
+
+    /**
      * List of schema values used to initialize the db schema
      */
     private ArrayList<String> dbSchemaValues = new ArrayList<String>();
 
     Model(String tableName) {
         this.tableName = tableName;
+        id = new Value<Integer>("id");
     }
 
-    protected void addIdField() {
+    public Integer getId() {
+        return id.getValue();
+    }
+
+    private void addIdField() {
         dbSchemaValues.add("id INTEGER PRIMARY KEY AUTOINCREMENT");
+    }
+
+    /**
+     * Assign the highest id from db to the model.
+     *
+     * This should be only used after model is created.
+     */
+    private void assignIdFromDb() throws SQLException {
+        String cmd = "SELECT id FROM " + tableName + " ORDER BY id DESC LIMIT 1";
+
+        ResultSet rs = dbHelper.query(cmd);
+        id.setValue(rs.getInt("id"));
     }
 
     protected void addIntToSchema(String rowName) {
@@ -40,6 +62,8 @@ abstract class Model {
     }
 
     protected void createTable() {
+        // Every model needs a id field
+        addIdField();
         StringBuilder sb = new StringBuilder("CREATE TABLE ");
         sb.append(tableName);
         sb.append(" (");
@@ -86,6 +110,40 @@ abstract class Model {
         sb.append(values);
 
         // Execute the command
+        try {
+            dbHelper.execute(sb.toString());
+            // TODO: is there a more efficent way to assing the Id
+            assignIdFromDb();
+        } catch (SQLException e) {
+            System.err.println(e.toString());
+        }
+    }
+
+    public void update() {
+        assert id != null;
+        assert id.getValue() != null;
+
+        Value<?>[] dbValues = getDbValues();
+
+        // Build SET values
+        StringBuilder set = new StringBuilder();
+        for (int i = 0; i < dbValues.length; i++) {
+            set.append(dbValues[i].getRowName());
+            set.append("=");
+            set.append(dbValues[i].getValue());
+            if (i < dbValues.length - 1) {
+                set.append(", ");
+            }
+        }
+
+        // Build the rest of the command
+        StringBuilder sb = new StringBuilder("UPDATE ");
+        sb.append(tableName);
+        sb.append(" SET ");
+        sb.append(set);
+        sb.append(" WHERE id=");
+        sb.append(id.getValue());
+
         try {
             dbHelper.execute(sb.toString());
         } catch (SQLException e) {

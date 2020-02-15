@@ -71,7 +71,15 @@ public class TaskProvider {
     }
 
     public void updateDayTasks(Integer day, ArrayList<Task> newTasks) {
+        // Update tasks to db
+        // TODO: should this be a sperate thread?
+        for (Task task : newTasks) {
+            task.update();
+        }
+
+        // Update the days task list
         tasks.put(day, newTasks);
+
         // Notify listeners that tasks have been updated
         notifyListeners();
     }

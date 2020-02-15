@@ -15,7 +15,6 @@ public class Task extends Model {
     // TODO: make Task sortable by alertHour and alertMinute
 
     // Database variables
-    private Value<Integer> id;
     private Value<Integer> day;
     private Value<Integer> year;
     private Value<Integer> month;
@@ -26,7 +25,6 @@ public class Task extends Model {
 
     public Task() {
         super(tableName);
-        id = new Value<Integer>("id");
         day = new Value<Integer>("day");
         year = new Value<Integer>("year");
         month = new Value<Integer>("month");
@@ -38,7 +36,6 @@ public class Task extends Model {
 
     @Override
     protected void initialize() {
-        addIdField();
         addIntToSchema(month.getRowName());
         addIntToSchema(day.getRowName());
         addIntToSchema(year.getRowName());
@@ -59,10 +56,6 @@ public class Task extends Model {
         alertMinute.setValue(DatabaseHelper.getInteger(rs, "alertMinute"));
         task.setValue(DatabaseHelper.getString(rs, "task"));
         isDone.setValue(DatabaseHelper.getBoolean(rs, "isDone"));
-    }
-
-    public Integer getId() {
-        return id.getValue();
     }
 
     public Integer getDay() {
@@ -132,6 +125,7 @@ public class Task extends Model {
                 task.initFromResultSet(rs);
                 tasks.add(task);
             }
+            rs.close();
         } catch (SQLException e) {
             // No result found
         }
