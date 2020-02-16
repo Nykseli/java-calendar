@@ -84,7 +84,7 @@ class CalendarDays extends JPanel {
                 today = true;
             }
 
-            add(new DayPanel(loopDay, loopMonth, loopYear, today));
+            add(new DayPanel(loopDay, today));
         }
 
         // Finally add empty panels as padding

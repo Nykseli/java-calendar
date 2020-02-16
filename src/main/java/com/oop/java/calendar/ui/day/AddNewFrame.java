@@ -34,8 +34,8 @@ class AddNewFrame extends AbstractFrame {
      * @param month
      * @param year
      */
-    AddNewFrame(int day, int month, int year) {
-        super("Add new", day, month, year);
+    AddNewFrame(int day) {
+        super("Add new", day);
 
     }
 

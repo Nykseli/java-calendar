@@ -6,6 +6,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 
 import com.oop.java.calendar.data.models.Task;
+import com.oop.java.calendar.data.providers.MonthProvider;
 
 abstract class AbstractFrame extends JFrame {
 
@@ -21,15 +22,26 @@ abstract class AbstractFrame extends JFrame {
     protected Task task;
     protected int rowIndex;
 
-    AbstractFrame(String title, int day, int month, int year) {
+    AbstractFrame(String title, int day) {
         super(title);
         assert day > 0;
-        assert month > 0;
-        assert year > 0;
 
+        MonthProvider provider = MonthProvider.getInstance();
         this.day = day;
-        this.month = month;
-        this.year = year;
+        this.year = provider.getYear();
+        this.month = provider.getMonth();
+
+        construct();
+    }
+
+    AbstractFrame(int day) {
+        super();
+        assert day > 0;
+
+        MonthProvider provider = MonthProvider.getInstance();
+        this.day = day;
+        this.year = provider.getYear();
+        this.month = provider.getMonth();
 
         construct();
     }

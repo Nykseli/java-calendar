@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import com.oop.java.calendar.data.models.Task;
+import com.oop.java.calendar.data.providers.MonthProvider;
 import com.oop.java.calendar.data.providers.TaskProvider;
 import com.oop.java.calendar.data.providers.TaskView;
 
@@ -36,8 +37,8 @@ public class DayFrame extends AbstractFrame implements TaskView {
     private JButton newButton;
     private JButton saveButton;
 
-    public DayFrame(int day, int month, int year) {
-        super(day + "." + month + "." + year, day, month, year);
+    public DayFrame(int day) {
+        super(day);
 
         provider = TaskProvider.getInstance();
         provider.addView(this);
@@ -50,7 +51,7 @@ public class DayFrame extends AbstractFrame implements TaskView {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     // TODO: If AddNewFrame is already open, don't repen, focus
-                    new AddNewFrame(day, month, year);
+                    new AddNewFrame(day);
                 }
             });
         }
@@ -84,6 +85,7 @@ public class DayFrame extends AbstractFrame implements TaskView {
 
     @Override
     protected void setLayout() {
+        setTitle(day + "." + month + "." + year);
         setLayout(new GridBagLayout());
         // Reset row values
         rows = new ArrayList<>();
@@ -163,6 +165,14 @@ public class DayFrame extends AbstractFrame implements TaskView {
     @Override
     public void loadTasks(HashMap<Integer, ArrayList<Task>> tasks) {
         this.tasks = tasks.get(day);
+
+        // When tasks are reloaded, the MonthProvider year and month may have changed.
+        // This makes sure that the title is painted correctly on setLayout when month
+        // and/or year changes
+        MonthProvider provider = MonthProvider.getInstance();
+        year = provider.getYear();
+        month = provider.getMonth();
+
         getContentPane().removeAll();
         setLayout();
         repaint();

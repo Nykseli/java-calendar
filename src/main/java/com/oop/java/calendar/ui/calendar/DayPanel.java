@@ -25,8 +25,6 @@ class DayPanel extends JSplitPane implements TaskView {
     private static final long serialVersionUID = 1L;
 
     private int day;
-    private int year;
-    private int month;
     private boolean currentDay;
 
     private JButton bottomButton = new JButton();
@@ -40,12 +38,10 @@ class DayPanel extends JSplitPane implements TaskView {
      * @param year       Year in xxxx format
      * @param currentDay day background is highlighted when set to true
      */
-    DayPanel(int day, int month, int year, boolean currentDay) {
+    DayPanel(int day, boolean currentDay) {
         super(JSplitPane.VERTICAL_SPLIT, true);
         this.currentDay = currentDay;
         this.day = day;
-        this.year = year;
-        this.month = month;
 
         taskProvider = TaskProvider.getInstance();
         if (day > 0) {
@@ -88,7 +84,7 @@ class DayPanel extends JSplitPane implements TaskView {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 // TODO: If day is already open, don't repen, focus
-                new DayFrame(day, month, year);
+                new DayFrame(day);
             }
         });
 
@@ -114,7 +110,7 @@ class DayPanel extends JSplitPane implements TaskView {
      * Create empty DayPanel
      */
     public static DayPanel empty() {
-        return new DayPanel(-1, -1, -1, false);
+        return new DayPanel(-1, false);
     }
 
     @Override

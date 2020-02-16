@@ -26,8 +26,8 @@ class SetTimeFrame extends AbstractFrame {
     private JTextField hourField;
     private JTextField minuteField;
 
-    SetTimeFrame(int day, int month, int year) {
-        super("Set time", day, month, year);
+    SetTimeFrame(int day) {
+        super("Set time", day);
     }
 
     SetTimeFrame(int rowIndex, Task task) {
