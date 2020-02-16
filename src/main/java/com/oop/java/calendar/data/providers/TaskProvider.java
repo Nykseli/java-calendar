@@ -9,10 +9,8 @@ import com.oop.java.calendar.data.models.Task;
 /**
  * Provider container the current months tasks
  */
-public class TaskProvider {
+public class TaskProvider extends AbstractProvider<TaskView> {
     static TaskProvider instance = new TaskProvider();
-
-    ArrayList<TaskView> views = new ArrayList<>();
 
     /**
      * Day, Tasks
@@ -26,7 +24,8 @@ public class TaskProvider {
         return instance;
     }
 
-    private void notifyListeners() {
+    @Override
+    protected void notifyListeners() {
         for (TaskView tv : views) {
             tv.loadTasks(tasks);
         }
@@ -47,14 +46,6 @@ public class TaskProvider {
             Collections.sort(dayTasks);
 
         tasks.put(task.getDay(), dayTasks);
-    }
-
-    public void addView(TaskView view) {
-        views.add(view);
-    }
-
-    public void deleteView(TaskView view) {
-        views.remove(view);
     }
 
     /**
