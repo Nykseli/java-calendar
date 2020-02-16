@@ -58,7 +58,7 @@ class SetTimeFrame extends AbstractFrame {
                 // TODO: input validation
                 task.setAlertHour(Integer.parseInt(hourField.getText()));
                 task.setAlertMinute(Integer.parseInt(minuteField.getText()));
-                TaskProvider.getInstance().updateTask(0, task);
+                TaskProvider.getInstance().updateTask(rowIndex, task);
                 dispose();
             }
         });

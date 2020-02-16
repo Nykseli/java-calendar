@@ -1,6 +1,7 @@
 package com.oop.java.calendar.data.providers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import com.oop.java.calendar.data.models.Task;
@@ -31,7 +32,7 @@ public class TaskProvider {
         }
     }
 
-    private void addTask(Task task) {
+    private void addTask(Task task, boolean sort) {
         assert task.getDay() != null;
 
         ArrayList<Task> dayTasks;
@@ -41,6 +42,10 @@ public class TaskProvider {
             dayTasks = new ArrayList<Task>();
         }
         dayTasks.add(task);
+
+        if (sort)
+            Collections.sort(dayTasks);
+
         tasks.put(task.getDay(), dayTasks);
     }
 
@@ -61,7 +66,7 @@ public class TaskProvider {
      */
     public void addNewTask(Task task) {
         // Add new task to provider
-        addTask(task);
+        addTask(task, true);
 
         // Create database entry from the task
         task.create();
@@ -80,6 +85,9 @@ public class TaskProvider {
         // Update database entry from the task
         task.update();
 
+        // Make sure tasks are sorted based on alert times
+        Collections.sort(list);
+
         // Notify listeners that tasks have been updated
         notifyListeners();
     }
@@ -90,6 +98,9 @@ public class TaskProvider {
         for (Task task : newTasks) {
             task.update();
         }
+
+        // Make sure tasks are sorted based on alert times
+        Collections.sort(newTasks);
 
         // Update the days task list
         tasks.put(day, newTasks);
@@ -112,7 +123,7 @@ public class TaskProvider {
         // TODO: fetch data on sparate thread
         ArrayList<Task> all = Task.get(month, year);
         for (Task task : all) {
-            addTask(task);
+            addTask(task, false);
         }
 
         notifyListeners();

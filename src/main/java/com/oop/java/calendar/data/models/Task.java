@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import com.oop.java.calendar.data.db.DatabaseHelper;
 import com.oop.java.calendar.data.db.Value;
 
-public class Task extends Model {
+public class Task extends Model implements Comparable<Task> {
 
     private static final String tableName = "task";
     public static final String foreignId = "taskId";
@@ -117,6 +117,7 @@ public class Task extends Model {
     public static ArrayList<Task> get(int month, int year) {
         ArrayList<Task> tasks = new ArrayList<>();
         String query = "SELECT * FROM " + tableName + " WHERE month=" + month + " and year=" + year;
+        query += " ORDER BY alertHour ASC, alertMinute ASC";
 
         try {
             ResultSet rs = DatabaseHelper.getInstance().query(query);
@@ -136,6 +137,15 @@ public class Task extends Model {
     @Override
     protected Value<?>[] getDbValues() {
         return new Value<?>[] { day, year, month, alertHour, alertMinute, task, isDone };
+    }
+
+    @Override
+    public int compareTo(Task task) {
+        int hourCompare = getAlertHour().compareTo(task.getAlertHour());
+        if (hourCompare != 0)
+            return hourCompare;
+
+        return getAlertMinute().compareTo(task.getAlertMinute());
     }
 
 }
