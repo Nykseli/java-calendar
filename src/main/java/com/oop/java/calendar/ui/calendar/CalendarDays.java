@@ -5,6 +5,8 @@ import java.util.Calendar;
 
 import javax.swing.JPanel;
 
+import com.oop.java.calendar.data.providers.MonthProvider;
+
 class CalendarDays extends JPanel {
 
     /**
@@ -29,19 +31,26 @@ class CalendarDays extends JPanel {
         this.targetMonth = targetMonth;
 
         // Initialize todays values
-        Calendar today = Calendar.getInstance();
+        Calendar today = MonthProvider.getInstance().getCalendar();
         todayYear = today.get(Calendar.YEAR);
         todayMonth = today.get(Calendar.MONTH);
         todayDay = today.get(Calendar.DAY_OF_MONTH);
 
         // Inialize values for iterating days of the month
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = (Calendar) today.clone();
         calendar.set(Calendar.MONTH, targetMonth);
         calendar.set(Calendar.YEAR, targetYear);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
 
         start = (Calendar) calendar.clone();
-        start.add(Calendar.DAY_OF_MONTH, -(start.get(Calendar.DAY_OF_WEEK) - 2));
+        int dayOfWeek = start.get(Calendar.DAY_OF_WEEK);
+        int prePadding = dayOfWeek - 2;
+        // Calendar starts with sunday.
+        // This is a work around of that.
+        if (dayOfWeek == Calendar.SUNDAY)
+            prePadding = 6;
+
+        start.add(Calendar.DAY_OF_MONTH, -prePadding);
         end = (Calendar) calendar.clone();
         end.add(Calendar.MONTH, +1);
 
