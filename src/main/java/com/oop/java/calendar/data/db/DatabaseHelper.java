@@ -46,7 +46,7 @@ public class DatabaseHelper {
         for (int i = 0; i < values.length; i++) {
             // Boolean Values doesn't translate to string very well
             if (values[i].getValue() instanceof Boolean)
-                stmt.setBoolean(i + 1, (boolean) values[i].getValue());
+                stmt.setBoolean(i + 1, (Boolean) values[i].getValue());
             else
                 stmt.setString(i + 1, values[i].getValue().toString());
         }
