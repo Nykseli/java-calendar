@@ -1,14 +1,14 @@
 package com.oop.java.calendar.ui.day;
 
+import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import com.oop.java.calendar.data.models.Task;
 import com.oop.java.calendar.data.providers.MonthProvider;
-import java.awt.Color;
-import javax.swing.JLabel;
 
 abstract class AbstractFrame extends JFrame {
 

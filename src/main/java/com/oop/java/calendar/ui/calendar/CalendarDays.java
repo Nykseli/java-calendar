@@ -16,7 +16,6 @@ class CalendarDays extends JPanel {
 
     private int targetYear;
     private int targetMonth;
-    private int targetDay;
 
     // Variables for iterating days of the month
     private Calendar start;
@@ -29,7 +28,6 @@ class CalendarDays extends JPanel {
         Calendar target = MonthProvider.getInstance().getCalendar();
         targetYear = target.get(Calendar.YEAR);
         targetMonth = target.get(Calendar.MONTH);
-        targetDay = target.get(Calendar.DAY_OF_MONTH);
 
         // Inialize values for iterating days of the month
         Calendar calendar = (Calendar) target.clone();
