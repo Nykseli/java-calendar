@@ -28,6 +28,9 @@ class AddNewFrame extends AbstractFrame {
     private JTextField hourField;
     private JTextField minuteField;
 
+    private boolean hourError;
+    private boolean minuteError;
+
     /**
      *
      * @param day
@@ -45,15 +48,32 @@ class AddNewFrame extends AbstractFrame {
             saveButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
+                    int hour = formatHour(hourField.getText());
+                    if (hour == -1)
+                        hourError = true;
+                    else
+                        hourError = false;
+
+                    int minute = formatMinute(minuteField.getText());
+                    if (minute == -1)
+                        minuteError = true;
+                    else
+                        minuteError = false;
+
+                    if (!hourError && !minuteError) {
+
                     Task task = new Task();
-                    task.setDay(day);
-                    task.setYear(year);
-                    task.setMonth(month);
-                    task.setIsDone(false);
-                    task.setTask(taskField.getText());
-                    task.setAlertHour(Integer.parseInt(hourField.getText()));
-                    task.setAlertMinute(Integer.parseInt(minuteField.getText()));
-                    TaskProvider.getInstance().addNewTask(task);
+                        task.setDay(day);
+                        task.setYear(year);
+                        task.setMonth(month);
+                        task.setIsDone(false);
+                        task.setTask(taskField.getText());
+                        task.setAlertHour(hour);
+                        task.setAlertMinute(minute);
+                        TaskProvider.getInstance().addNewTask(task);
+                    }
+
+                    repaint();
                 }
             });
         }
@@ -92,25 +112,42 @@ class AddNewFrame extends AbstractFrame {
         GridBagConstraints constraint = new GridBagConstraints();
         constraint.insets = new Insets(10, 10, 10, 10);
 
-        constraint.gridy = 0;
+        int gridY = 0;
+        constraint.gridy = gridY;
         constraint.gridx = 0;
         add(new JLabel("Hour*: "), constraint);
         constraint.gridx = 1;
         addHourField(constraint);
+        gridY++;
 
-        constraint.gridy = 1;
+        if (hourError) {
+            constraint.gridy = gridY;
+            constraint.gridx = 0;
+            add(hourErrorLabel(), constraint);
+            gridY++;
+        }
+
+        constraint.gridy = gridY;
         constraint.gridx = 0;
         add(new JLabel("Minute*: "), constraint);
         constraint.gridx = 1;
         addMinuteField(constraint);
+        gridY++;
 
-        constraint.gridy = 2;
+        if (minuteError) {
+            constraint.gridy = gridY;
+            constraint.gridx = 0;
+            add(minuteErrorLabel(), constraint);
+            gridY++;
+        }
+
+        constraint.gridy = gridY;
         constraint.gridx = 0;
         add(new JLabel("Task name*: "), constraint);
         constraint.gridx = 1;
         addTaskField(constraint);
 
-        constraint.gridy = 3;
+        constraint.gridy = gridY;
         constraint.gridx = 3;
         constraint.gridwidth = 4;
         addSaveButton(constraint);

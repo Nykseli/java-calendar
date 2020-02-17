@@ -177,8 +177,6 @@ public class DayFrame extends AbstractFrame implements TaskView {
         year = provider.getYear();
         month = provider.getMonth();
 
-        getContentPane().removeAll();
-        setLayout();
         repaint();
     }
 

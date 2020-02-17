@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 
 import com.oop.java.calendar.data.models.Task;
 import com.oop.java.calendar.data.providers.MonthProvider;
+import java.awt.Color;
+import javax.swing.JLabel;
 
 abstract class AbstractFrame extends JFrame {
 
@@ -66,6 +68,48 @@ abstract class AbstractFrame extends JFrame {
         });
 
         setLayout();
+    }
+
+    // TODO: move formats somewhere else
+    protected int formatHour(String input) {
+        try {
+            int num = Integer.parseInt(input);
+            if (num >= 0 && num <= 23)
+                return num;
+        } catch (NumberFormatException e) {
+        }
+
+        return -1;
+    }
+
+    protected int formatMinute(String input) {
+        try {
+            int num = Integer.parseInt(input);
+            if (num >= 0 && num <= 59)
+                return num;
+        } catch (NumberFormatException e) {
+        }
+
+        return -1;
+    }
+
+    protected JLabel hourErrorLabel() {
+        JLabel label = new JLabel("Error: Hour field needs to be value between 0 and 23!");
+        label.setForeground(Color.RED);
+        return label;
+    }
+
+    protected JLabel minuteErrorLabel() {
+        JLabel label = new JLabel("Error: Minute field needs to be value between 0 and 59!");
+        label.setForeground(Color.RED);
+        return label;
+    }
+
+    @Override
+    public void repaint() {
+        getContentPane().removeAll();
+        setLayout();
+        super.repaint();
     }
 
     protected abstract void setLayout();
