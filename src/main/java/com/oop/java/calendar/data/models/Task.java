@@ -36,13 +36,13 @@ public class Task extends Model implements Comparable<Task> {
 
     @Override
     protected void initialize() {
-        addIntToSchema(month.getRowName());
-        addIntToSchema(day.getRowName());
-        addIntToSchema(year.getRowName());
-        addIntToSchema(alertHour.getRowName());
-        addIntToSchema(alertMinute.getRowName());
-        addBoolToSchema(isDone.getRowName());
-        addStringToSchema(task.getRowName());
+        addIntToSchema(month.getColumnName());
+        addIntToSchema(day.getColumnName());
+        addIntToSchema(year.getColumnName());
+        addIntToSchema(alertHour.getColumnName());
+        addIntToSchema(alertMinute.getColumnName());
+        addBoolToSchema(isDone.getColumnName());
+        addStringToSchema(task.getColumnName());
         createTable();
     }
 

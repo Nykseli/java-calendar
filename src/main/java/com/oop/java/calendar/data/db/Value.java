@@ -5,16 +5,16 @@ public class Value<T> {
     private T value;
     private T originalValue;
 
-    private String rowName;
+    private String columnName;
 
-    public Value(T value, String rowName) {
+    public Value(T value, String columnName) {
         this.value = value;
         this.originalValue = value;
-        this.rowName = rowName;
+        this.columnName = columnName;
     }
 
-    public Value(String rowName) {
-        this.rowName = rowName;
+    public Value(String columnName) {
+        this.columnName = columnName;
     }
 
     public T getValue() {
@@ -28,12 +28,12 @@ public class Value<T> {
         this.value = value;
     }
 
-    public String getRowName() {
-        return rowName;
+    public String getColumnName() {
+        return columnName;
     }
 
-    public void setRowName(String rowName) {
-        this.rowName = rowName;
+    public void setColumnName(String columnName) {
+        this.columnName = columnName;
     }
 
     public boolean isModified() {

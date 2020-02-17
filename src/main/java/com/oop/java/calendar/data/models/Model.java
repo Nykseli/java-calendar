@@ -58,18 +58,18 @@ abstract class Model {
         id.setValue(rs.getInt("id"));
     }
 
-    protected void addIntToSchema(String rowName) {
-        String cmd = rowName + " INTEGER";
+    protected void addIntToSchema(String columnName) {
+        String cmd = columnName + " INTEGER";
         dbSchemaValues.add(cmd);
     }
 
-    protected void addBoolToSchema(String rowName) {
-        String cmd = rowName + " BOOLEAN";
+    protected void addBoolToSchema(String columnName) {
+        String cmd = columnName + " BOOLEAN";
         dbSchemaValues.add(cmd);
     }
 
-    protected void addStringToSchema(String rowName) {
-        String cmd = rowName + " TEXT";
+    protected void addStringToSchema(String columnName) {
+        String cmd = columnName + " TEXT";
         dbSchemaValues.add(cmd);
     }
 
@@ -104,7 +104,7 @@ abstract class Model {
         StringBuilder into = new StringBuilder(" ( ");
         StringBuilder values = new StringBuilder(" ( ");
         for (int i = 0; i < dbValues.length; i++) {
-            into.append(dbValues[i].getRowName());
+            into.append(dbValues[i].getColumnName());
             values.append("?");
             if (i < dbValues.length - 1) {
                 into.append(", ");
@@ -143,7 +143,7 @@ abstract class Model {
         // Build SET values
         StringBuilder set = new StringBuilder();
         for (int i = 0; i < dbValues.length; i++) {
-            set.append(dbValues[i].getRowName());
+            set.append(dbValues[i].getColumnName());
             set.append(" = ");
             set.append("?");
             if (i < dbValues.length - 1) {
