@@ -59,8 +59,22 @@ public class TaskProvider extends AbstractProvider<TaskView> {
         // Add new task to provider
         addTask(task, true);
 
-        // Create database entry from the task
+        // Create new database entry
         task.create();
+
+        // Notify listeners that tasks have been updated
+        notifyListeners();
+    }
+
+    public void removeTask(Task task) {
+        assert task.getDay() != null;
+
+        // Remove task from provider
+        ArrayList<Task> list = tasks.get(task.getDay());
+        list.remove(task);
+
+        // Remove database entry
+        task.delete();
 
         // Notify listeners that tasks have been updated
         notifyListeners();
@@ -73,7 +87,7 @@ public class TaskProvider extends AbstractProvider<TaskView> {
         ArrayList<Task> list = tasks.get(task.getDay());
         list.set(dayIndex, task);
 
-        // Update database entry from the task
+        // Update database entry
         task.update();
 
         // Make sure tasks are sorted based on alert times

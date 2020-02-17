@@ -132,6 +132,10 @@ public class DayFrame extends AbstractFrame implements TaskView {
             constraint.gridx = 3;
             add(setTimeButton, constraint);
 
+            constraint.gridx = 4;
+            values.setRemoveButton(rowTask);
+            add(values.getRemoveButton(), constraint);
+
             // Finally add the row values to the list
             rows.add(values);
         }
@@ -186,6 +190,7 @@ public class DayFrame extends AbstractFrame implements TaskView {
 class RowValues {
     private JCheckBox doneBox;
     private JTextField taskField;
+    private JButton removeButton;
 
     public void setDoneBox(Boolean defaultValue) {
         boolean value = defaultValue != null ? defaultValue : false;
@@ -212,5 +217,19 @@ class RowValues {
 
     public String taskValue() {
         return taskField.getText();
+    }
+
+    public void setRemoveButton(final Task task) {
+        removeButton = new JButton("Remove");
+        removeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                TaskProvider.getInstance().removeTask(task);
+            }
+        });
+    }
+
+    public JButton getRemoveButton() {
+        return removeButton;
     }
 }

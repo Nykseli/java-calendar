@@ -166,6 +166,22 @@ abstract class Model {
         }
     }
 
+    public void delete() {
+        assert id != null;
+        assert id.getValue() != null;
+
+        StringBuilder sb = new StringBuilder("DELETE FROM ");
+        sb.append(tableName);
+        sb.append(" WHERE id=");
+        sb.append(id.getValue());
+
+        try {
+            dbHelper.execute(sb.toString());
+        } catch (SQLException e) {
+            System.err.println(e.toString());
+        }
+    }
+
     protected abstract void initialize();
 
     protected abstract Value<?>[] getDbValues();
