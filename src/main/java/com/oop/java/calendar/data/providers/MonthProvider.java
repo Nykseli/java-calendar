@@ -10,8 +10,14 @@ public class MonthProvider extends AbstractProvider<MonthView> {
 
     Calendar calendar;
 
+    /**
+     * Contains the calendar based on users local time
+     */
+    Calendar currentCalendar;
+
     private MonthProvider() {
         calendar = Calendar.getInstance();
+        currentCalendar = (Calendar) calendar.clone();
     }
 
     public static MonthProvider getInstance() {
@@ -32,6 +38,18 @@ public class MonthProvider extends AbstractProvider<MonthView> {
 
     public int getYear() {
         return calendar.get(Calendar.YEAR);
+    }
+
+    public int getCurrentDay() {
+        return currentCalendar.get(Calendar.DAY_OF_MONTH);
+    }
+
+    public int getCurrentMonth() {
+        return currentCalendar.get(Calendar.MONTH);
+    }
+
+    public int getCurrentYear() {
+        return currentCalendar.get(Calendar.YEAR);
     }
 
     public void nextMonth() {

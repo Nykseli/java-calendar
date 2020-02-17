@@ -14,30 +14,25 @@ class CalendarDays extends JPanel {
      */
     private static final long serialVersionUID = 1L;
 
-    private int todayYear;
-    private int todayMonth;
-    private int todayDay;
-
     private int targetYear;
     private int targetMonth;
+    private int targetDay;
 
     // Variables for iterating days of the month
     private Calendar start;
     private Calendar end;
 
-    CalendarDays(int targetMonth, int targetYear) {
+    CalendarDays() {
         super(true);
-        this.targetYear = targetYear;
-        this.targetMonth = targetMonth;
 
         // Initialize todays values
-        Calendar today = MonthProvider.getInstance().getCalendar();
-        todayYear = today.get(Calendar.YEAR);
-        todayMonth = today.get(Calendar.MONTH);
-        todayDay = today.get(Calendar.DAY_OF_MONTH);
+        Calendar target = MonthProvider.getInstance().getCalendar();
+        targetYear = target.get(Calendar.YEAR);
+        targetMonth = target.get(Calendar.MONTH);
+        targetDay = target.get(Calendar.DAY_OF_MONTH);
 
         // Inialize values for iterating days of the month
-        Calendar calendar = (Calendar) today.clone();
+        Calendar calendar = (Calendar) target.clone();
         calendar.set(Calendar.MONTH, targetMonth);
         calendar.set(Calendar.YEAR, targetYear);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
@@ -89,7 +84,8 @@ class CalendarDays extends JPanel {
 
             // Else add DayPanel with the days number
             boolean today = false;
-            if (todayMonth == targetMonth && todayYear == targetYear && todayDay == loopDay) {
+            MonthProvider provider = MonthProvider.getInstance();
+            if (provider.getCurrentMonth() == loopMonth && provider.getCurrentYear() == loopYear && provider.getCurrentDay() == loopDay) {
                 today = true;
             }
 

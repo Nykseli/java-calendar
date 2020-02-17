@@ -36,7 +36,7 @@ class MonthPanel extends JPanel {
         setBackground(Color.BLACK);
         setForeground(Color.WHITE);
         add(new CalendarTitle(monthNames[targetMonth], targetYear), BorderLayout.NORTH);
-        add(new CalendarDays(targetMonth, targetYear), BorderLayout.SOUTH);
+        add(new CalendarDays(), BorderLayout.SOUTH);
     }
 
 }
