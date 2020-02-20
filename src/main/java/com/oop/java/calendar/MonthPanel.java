@@ -19,6 +19,9 @@ import java.util.Calendar;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import com.oop.java.calendar.ui.month.TitlePanel;
+import com.oop.java.calendar.ui.month.DayNamePanel;
+import com.oop.java.calendar.ui.month.DayPanel;
 
 public class MonthPanel extends JPanel {
 
@@ -48,26 +51,12 @@ public class MonthPanel extends JPanel {
         monthPanel.setLayout(new BorderLayout());
         monthPanel.setBackground(Color.BLACK);
         monthPanel.setForeground(Color.WHITE);
-        monthPanel.add(createTitleGUI(), BorderLayout.NORTH);
+        monthPanel.add(new TitlePanel(1,2020), BorderLayout.NORTH);
         monthPanel.add(createDaysGUI(), BorderLayout.SOUTH);
 
         return monthPanel;
     }
-
-    protected JPanel createTitleGUI() {
-        JPanel titlePanel = new JPanel(true);
-        titlePanel.setBorder(BorderFactory
-                .createLineBorder(SystemColor.activeCaption));
-        titlePanel.setLayout(new FlowLayout());
-        titlePanel.setBackground(Color.WHITE);
-
-        JLabel label = new JLabel(monthNames[month] + " " + year);
-        label.setForeground(SystemColor.activeCaption);
-
-        titlePanel.add(label, BorderLayout.CENTER);
-
-        return titlePanel;
-    }
+    
 
     protected JPanel createDaysGUI() {
         JPanel dayPanel = new JPanel(true);
@@ -90,12 +79,9 @@ public class MonthPanel extends JPanel {
         Calendar maximum = (Calendar) calendar.clone();
         maximum.add(Calendar.MONTH, +1);
 
+        //Creates panel for days
         for (int i = 0; i < dayNames.length; i++) {
-            JPanel dPanel = new JPanel(true);
-            dPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            JLabel dLabel = new JLabel(dayNames[i]);
-            dPanel.add(dLabel);
-            dayPanel.add(dPanel);
+            dayPanel.add(new DayNamePanel(i));
         }
 
         int count = 0;
@@ -105,36 +91,24 @@ public class MonthPanel extends JPanel {
             int lMonth = iterator.get(Calendar.MONTH);
             int lYear = iterator.get(Calendar.YEAR);
 
-            JPanel dPanel = new JPanel(true);
-            dPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            JLabel dayLabel = new JLabel();
 
             if ((lMonth == month) && (lYear == year)) {
                 int lDay = iterator.get(Calendar.DAY_OF_MONTH);
-                dayLabel.setText(Integer.toString(lDay));
+                String dayString = Integer.toString(lDay);
                 if ((tMonth == month) && (tYear == year) && (tDay == lDay)) {
-                    dPanel.setBackground(Color.ORANGE);
+                    dayPanel.add(new DayPanel(dayString, true));
                 } else {
-                    dPanel.setBackground(Color.WHITE);
+                    dayPanel.add(new DayPanel(dayString, false));
                 }
             } else {
-                dayLabel.setText(" ");
-                dPanel.setBackground(Color.WHITE);
+                dayPanel.add(DayPanel.empty());
             }
-            dPanel.add(dayLabel);
-            dayPanel.add(dPanel);
             iterator.add(Calendar.DAY_OF_YEAR, +1);
             count++;
         }
 
         for (int i = count; i < limit; i++) {
-            JPanel dPanel = new JPanel(true);
-            dPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            JLabel dayLabel = new JLabel();
-            dayLabel.setText(" ");
-            dPanel.setBackground(Color.WHITE);
-            dPanel.add(dayLabel);
-            dayPanel.add(dPanel);
+            dayPanel.add(DayPanel.empty());
         }
 
         return dayPanel;
