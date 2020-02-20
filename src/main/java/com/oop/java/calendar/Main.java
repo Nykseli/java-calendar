@@ -5,6 +5,7 @@
  */
 package com.oop.java.calendar;
 
+import com.oop.java.calendar.ui.MonthRunnable;
 import javax.swing.SwingUtilities;
 
 /**
@@ -13,6 +14,6 @@ import javax.swing.SwingUtilities;
  */
 public class Main {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new CalendarFrame());
+        SwingUtilities.invokeLater(new MonthRunnable());
     }
 }
