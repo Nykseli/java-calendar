@@ -4,26 +4,26 @@ Samu Warinowski & Miika Alikirri
 
 Kalenteri toteutetaan luomalla perinteinen kalenterinäkymä käyttäen  [javax.swing](https://docs.oracle.com/javase/8/docs/api/javax/swing/package-summary.html) kirjastoa.
 <br />
-Kalenterin tila tallennetaan Sqlite tietokantaan.
+Kalenterin tila tallennetaan Sqlite -tietokantaan.
 
-## Käyttöliittymän ratkaisuperjaate
+## Käyttöliittymän ratkaisuperiaate
 
 Kalenterinäkymästä luodaan perinteinen näkymä jossa näytettään yhden kuukauden päivät kerrallaan.
-Jokasella päivällä on alue joka näyttää kuinka monta tehtävää päivälle on, ja kuinka monta niistä ollaan suoritettu. Aluetta painamalla tuodaan näkyviin näkymä jossa voi poistaa, lisätä ja muokata tehtäviä.
+Jokasella päivällä on alue joka näyttää kuinka monta tehtävää päivälle on, ja kuinka monta niistä ollaan suoritettu. Aluetta painamalla tuodaan näkyviin näkymä, jossa voi poistaa, lisätä ja muokata tehtäviä.
 
 Jokaiselle tehtävälle asetetaan kellonaika jolloin tehtävän informaatio hälytetään käyttäjälle.
 
 
-## Tietokannan ja datan käsittelyn ratkaisuperjaate
+## Tietokannan ja datan käsittelyn ratkaisuperiaate
 
 ### Tietokanta
 
-Kalenterissa olevien tehtävien tallentaminen Sqlite tietokantaan ratkaistaan
+Kalenterissa olevien tehtävien tallentaminen Sqlite -tietokantaan ratkaistaan
 käyttäen tietokannan mallintamista luokkien avulla.
 Projektiin toteuteaan abstrakti luokka "Model" jonka avulla pervivät luokat voivat mallintaa tietokannan taulua. Luokan "Model" perii luokka "Task" joka sisältää tarvittavat rivit tehtävien mallintamiseksi.
 
-Tietokannan rivijen käsittelemeksi Task luokka käyttää geneeristä Value luokka luokanmuuttujille.
-Value luokan avulla saadaan tarkistettua onko arvoa muutettu alustamisten jälkeen jolloin tietokantaan ei tarvitse päivittää kuin muutetut arvot.
+Tietokannan rivien käsittelemeksi Task -luokka käyttää geneeristä Value -luokkaa luokanmuuttujille.
+Value -luokan avulla saadaan tarkistettua onko arvoa muutettu alustamisten jälkeen jolloin tietokantaan ei tarvitse päivittää kuin muutetut arvot.
 
 
 Taulun "task" Sqlite malli (schema):
@@ -35,7 +35,7 @@ id INTEGER PRIMARY KEY AUTOINCREMENT );
 
 ### Datan käsittely
 
-Ohjelmaan toteutetaan TaskProvider luokka joka synkronoi datan ohjelman ja tietokannan välillä.
+Ohjelmaan toteutetaan TaskProvider -luokka joka synkronoi datan ohjelman ja tietokannan välillä.
 
 ## Toteutettavat luokat
 
@@ -45,7 +45,7 @@ Toteutuksen kannalta tärkeiden luokkien metodien määritelmät
 
 ***public class DatabaseHelper***
 <br />
-Singleton luokka sqlite tietokannan yhteydelle.
+Singleton luokka Sqlite -tietokannan yhteydelle.
 
 | Metodin määritelmä | Kuvaus |
 |--------------------|--------|
@@ -61,8 +61,8 @@ Geneerinen luokka joka vastaa tietokanta taulun riviä.
 
 | Luokkamuuttuja | Kuvaus |
 |----------------|--------|
-| private T value | Value luokan arvo |
-| private T originalValue | Value luokan alkuperäinen arvo |
+| private T value | Value -luokan arvo |
+| private T originalValue | Value -luokan alkuperäinen arvo |
 | private String columnName | Tietokannan rivin nimi |
 
 | Metodin määritelmä | Kuvaus |
@@ -169,7 +169,7 @@ Ohjelmassa olevan tehtävien tarjoaja. TaskProvider luokan tila tallennetaan aut
 | public void loadMonthData(int month, int year) | Lataa tietokannasta task muuttujaan tehtävät |
 
 
-### Ui luokat
+### UI luokat
 
 ***public class AlertFrame extends JFrame***
 <br />
