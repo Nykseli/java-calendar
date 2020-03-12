@@ -15,6 +15,12 @@ import javax.swing.JPanel;
 
 import com.oop.java.calendar.data.providers.MonthProvider;
 
+/**
+ * Render the title of the calendar.
+ *
+ * Title contains the month and year and buttons for showing the previous and
+ * next month.
+ */
 class CalendarTitle extends JPanel {
 
     /**

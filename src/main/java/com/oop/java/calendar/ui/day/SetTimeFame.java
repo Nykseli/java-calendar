@@ -14,7 +14,7 @@ import com.oop.java.calendar.data.models.Task;
 import com.oop.java.calendar.data.providers.TaskProvider;
 
 /**
- * SetTimeFrame draws the Timetter Window.
+ * SetTimeFrame draws a window for setting time for a single day
  */
 class SetTimeFrame extends AbstractFrame {
 

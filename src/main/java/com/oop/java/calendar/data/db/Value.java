@@ -1,5 +1,8 @@
 package com.oop.java.calendar.data.db;
 
+/**
+ * Value is generic class used for database values for database models.
+ */
 public class Value<T> {
 
     private T value;
@@ -36,6 +39,11 @@ public class Value<T> {
         this.columnName = columnName;
     }
 
+    /**
+     * Is Value modified after initialization
+     *
+     * @return true if value is modified after initialization
+     */
     public boolean isModified() {
         if (value == null)
             return false;

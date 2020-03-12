@@ -14,7 +14,7 @@ import com.oop.java.calendar.data.models.Task;
 import com.oop.java.calendar.data.providers.TaskProvider;
 
 /**
- * AddNewFrame draws the New Task adder Window.
+ * AddNewFrame draws the a window for adding a new task for the day
  */
 class AddNewFrame extends AbstractFrame {
 

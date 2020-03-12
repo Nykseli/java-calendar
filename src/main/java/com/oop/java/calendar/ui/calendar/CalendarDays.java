@@ -7,6 +7,9 @@ import javax.swing.JPanel;
 
 import com.oop.java.calendar.data.providers.MonthProvider;
 
+/**
+ * Draw currently viewed months days
+ */
 class CalendarDays extends JPanel {
 
     /**

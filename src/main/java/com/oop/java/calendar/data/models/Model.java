@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import com.oop.java.calendar.data.db.DatabaseHelper;
 import com.oop.java.calendar.data.db.Value;
 
+/**
+ * Model is abstract class for database models
+ */
 abstract class Model {
     protected DatabaseHelper dbHelper = DatabaseHelper.getInstance();
     private String tableName;
@@ -30,6 +33,9 @@ abstract class Model {
         return id.getValue();
     }
 
+    /**
+     * Primary key id that every model should have
+     */
     private void addIdField() {
         dbSchemaValues.add("id INTEGER PRIMARY KEY AUTOINCREMENT");
     }
@@ -97,6 +103,11 @@ abstract class Model {
         dbSchemaValues = null;
     }
 
+    /**
+     * Create new entry of the model.
+     *
+     * Id is is automatically assigned after create.
+     */
     public void create() {
         Value<?>[] dbValues = getDbValues();
 
@@ -131,6 +142,9 @@ abstract class Model {
         }
     }
 
+    /**
+     * Update modified database values
+     */
     public void update() {
         assert id != null;
         assert id.getValue() != null;
@@ -166,6 +180,9 @@ abstract class Model {
         }
     }
 
+    /**
+     * Delete database entry
+     */
     public void delete() {
         assert id != null;
         assert id.getValue() != null;

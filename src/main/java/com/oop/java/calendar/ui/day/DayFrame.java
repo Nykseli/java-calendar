@@ -19,9 +19,7 @@ import com.oop.java.calendar.data.providers.TaskProvider;
 import com.oop.java.calendar.data.providers.TaskView;
 
 /**
- * DayFrame draws the JPanels in com.oop.java.calendar.ui.day.
- *
- * This should be only public class in com.oop.java.calendar.ui.day.
+ * DayFrame renders the day tasks view with task modification buttons.
  */
 public class DayFrame extends AbstractFrame implements TaskView {
 

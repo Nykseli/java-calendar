@@ -17,6 +17,9 @@ import com.oop.java.calendar.data.providers.TaskProvider;
 import com.oop.java.calendar.data.providers.TaskView;
 import com.oop.java.calendar.ui.day.DayFrame;
 
+/**
+ * Draw a single day
+ */
 class DayPanel extends JSplitPane implements TaskView {
 
     /**

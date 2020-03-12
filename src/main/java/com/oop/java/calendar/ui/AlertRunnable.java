@@ -9,6 +9,9 @@ import com.oop.java.calendar.data.providers.TaskProvider;
 import com.oop.java.calendar.data.providers.TaskView;
 import com.oop.java.calendar.ui.alert.AlertFrame;
 
+/**
+ * Runnable for alerting a user when task should be completed.
+ */
 public class AlertRunnable implements Runnable, TaskView {
 
     HashMap<Integer, ArrayList<Task>> tasks;

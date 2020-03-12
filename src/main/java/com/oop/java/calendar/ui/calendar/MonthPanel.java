@@ -12,6 +12,9 @@ import java.awt.SystemColor;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+/**
+ * Draw the whole month panel
+ */
 class MonthPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;

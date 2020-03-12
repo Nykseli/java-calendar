@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import com.oop.java.calendar.data.db.DatabaseHelper;
 import com.oop.java.calendar.data.db.Value;
 
+/**
+ * Task is used to model tasks in database
+ */
 public class Task extends Model implements Comparable<Task> {
 
     private static final String tableName = "task";
-    public static final String foreignId = "taskId";
-
-    // TODO: make Task sortable by alertHour and alertMinute
 
     // Database variables
     private Value<Integer> day;

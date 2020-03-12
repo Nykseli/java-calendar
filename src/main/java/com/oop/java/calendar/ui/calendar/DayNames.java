@@ -6,6 +6,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * Render a row of days names
+ */
 class DayNames extends JPanel {
 
     /**

@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * Singleton class
+ * Singleton class for sqlite database connection
  */
 public class DatabaseHelper {
     private static DatabaseHelper instance = new DatabaseHelper();
